@@ -1,5 +1,6 @@
 const commentService = require('../services/comments_services')
-const { setResponse, setErrorRseponse, setErrorResponse } = require('../handlers/response')
+
+const { setResponse, setErrorResponse } = require('../handlers/response')
 
 
 //read a comment

@@ -1,12 +1,8 @@
 const express = require('express')
 const router = new express.Router()
 const comment=require('../controllers/comments_controller')
-const Places=require('../models/places')
-const Comments=require('../models/comments_reviews')
-const comments = require('../models/comments_reviews')
 
-Places.hasMany(Comments)
-Comments.belongsTo(Places)
+
 
 //get all comments of a place
 router.get('/comments/:id',comment.get)

@@ -1,4 +1,4 @@
-const sharp = require('sharp')
+const path = require('path')
 const placeServices = require('../services/places_services')
 const { setResponse, setErrorResponse } = require('../handlers/response')
 
@@ -11,7 +11,7 @@ exports.create = async (req, res) => {
         if (e.statusCode && e.message) {
             return setErrorResponse(res, e.statusCode, e.message)
         }
-        setErrorResponse(res, e.message)
+        setErrorResponse(res, 500, e.message)
     }
 }
 
@@ -79,7 +79,7 @@ exports.deleteAllPlaces = async (req, res) => {
         const deletedPlaces = await placeServices.deleteAllPlaces()
         setResponse(res, 200, "delete all places", deletedPlaces)
     } catch (e) {
-        setErrorResponse(res)
+        setErrorResponse(res, e.message)
     }
 }
 
@@ -87,7 +87,7 @@ exports.deleteAllPlaces = async (req, res) => {
 //delete place image
 exports.deleteImage = async (req, res) => {
     try {
-        const place = placeServices.deleteImage(req.params.id)
+        const place = await placeServices.deleteImage(req.params.id)
         setResponse(res, 200, 'delete place image ', place)
     } catch (e) {
         if (e.statusCode && e.message) {
@@ -101,13 +101,15 @@ exports.deleteImage = async (req, res) => {
 //explore place image
 exports.getImage = async (req, res) => {
     try {
-        const place = await placeServices.getImage(req.params.id)
-        res.set('Content-Type', 'image/PNG')     //responce header to tell browser the type
-        res.send(place.image)
+        const image = await placeServices.getImage(req.params.id)
+        res.set('Content-Type', 'image/PNG' || 'image/jpeg' || 'image.jpg')     //responce header to tell browser the type
+        res.sendFile(path.join(__dirname, `../public/${image}`))
     } catch (e) {
         if (e.statusCode && e.message) {
             return setErrorResponse(res, e.statusCode, e.message)
+
         }
+        console.log(e)
         setErrorResponse(res)
     }
 }
@@ -115,13 +117,13 @@ exports.getImage = async (req, res) => {
 //update place image
 exports.updateImage = async (req, res) => {
     try {
-        console.log(req.file)
-        const updatedImage = placeServices.updateImage(req.params.id, req.file)
+        const updatedImage = await placeServices.updateImage(req.params.id, req.file)
         setResponse(res, 200, "update place image", updatedImage)
     } catch (e) {
         if (e.statusCode && e.message) {
             return setErrorResponse(res, e.statusCode, e.message)
+
         }
-        setErrorResponse(res)
+        setErrorResponse(res, e.message)
     }
 }

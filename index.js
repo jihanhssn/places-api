@@ -1,6 +1,6 @@
 const express = require('express')
-
-const connection = require('./db/sequelize')
+const db=require('./models/index')
+const connection = db.sequelize
 const placesRouter = require('./routes/places')
 const commentsRouter = require('./routes/comments')
 

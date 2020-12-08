@@ -10,11 +10,27 @@ exports.get = async (req, res) => {
         return setResponse(res, 200, "list comments", comments)
     } catch (e) {
         if (e.message && e.statusCode) {
-            return setErrorResponse(res,e.statusCode,e.message)
+            return setErrorResponse(res, e.statusCode, e.message)
         }
-        setErrorResponse(res,e.message)
+        setErrorResponse(res, e.message)
     }
 }
+
+
+
+//read place comments
+exports.listComments = async (req, res) => {
+    try {
+        const place_comments = await commentService.listComments(req.params.id, res)
+        setResponse(res, 200, "list place comments", place_comments)
+    } catch (e) {
+        if (e.statusCode && e.message) {
+            return setErrorResponse(res, e.statusCode, e.message)
+        }
+        setErrorResponse(res)
+    }
+}
+
 
 //add comment
 exports.create = async (req, res) => {
@@ -42,7 +58,7 @@ exports.update = async (req, res) => {
         if (e.statusCode && e.message) {
             return setErrorResponse(res, e.statusCode, e.message)
         }
-        setErrorResponse(res)
+        setErrorResponse(res, e.message)
     }
 }
 
@@ -60,13 +76,13 @@ exports.delete = async (req, res) => {
 }
 
 //delete all place comments
-exports.deleteAll=async(req,res)=>{
-    try{
-        const deletedCommets=await commentService.deleteAll(req.params.place_id)
-        setResponse(res,200,"delaet place comments",deletedCommets)
-    }catch(e){
-        if(e.statusCode&&e.message){
-            return setErrorResponse(res,e.statusCode,e.message)
+exports.deleteAll = async (req, res) => {
+    try {
+        const deletedCommets = await commentService.deleteAll(req.params.place_id)
+        setResponse(res, 200, "delaet place comments", deletedCommets)
+    } catch (e) {
+        if (e.statusCode && e.message) {
+            return setErrorResponse(res, e.statusCode, e.message)
         }
         setErrorResponse(res)
     }

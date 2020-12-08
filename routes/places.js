@@ -18,8 +18,6 @@ router.delete('/places/:id', place.delete);
 //delete all places
 router.delete('/places', place.deleteAllPlaces)
 
-//read place comments
-router.get('/place_comments/:id', place.listComments)
 
 //delete place image
 router.delete('/places/image/:id', place.deleteImage)

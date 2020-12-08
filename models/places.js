@@ -1,6 +1,3 @@
-// const Sequelize = require('sequelize')
-// const connection = require('../db/sequelize')
-// const Comments = require('./comments')
 
 module.exports=function(sequelize,DataTypes){
 const Places = sequelize.define('places', {

@@ -1,16 +1,21 @@
-require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
 const basename = path.basename(module.filename);
+var env = process.env.NODE_ENV || 'development';
+const config = require(__dirname + '/../config/config.js')[env];
 const db = {};
 
-let sequelize = new Sequelize(
-  process.env.DB_DATABASE, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
-    dialect: process.env.DB_DIALECT
+let sequelize
+if (config.use_env_variable) {
+  sequelize = new Sequelize(process.env[config.use_env_variable]);
+} else {
+  sequelize = new Sequelize(
+    config.database, config.username, config.password, config, {
+    dialect: config.dialect
   }
-);
-
+  )
+}
 
 fs
   .readdirSync(__dirname)
@@ -19,7 +24,6 @@ fs
     (file !== basename) &&
     (file.slice(-3) === '.js'))
   .forEach(file => {
-    // const model = sequelize.import(path.join(__dirname, file));
     const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes)
 
     db[model.name] = model;

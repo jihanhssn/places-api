@@ -7,6 +7,9 @@ const comment=require('../controllers/comments_controller')
 //get all comments of a place
 router.get('/comments/:id',comment.get)
 
+//read place comments
+router.get('/place_comments/:id', comment.listComments)
+
 //add comment
 router.post('/comments',comment.create)
 

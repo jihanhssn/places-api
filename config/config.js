@@ -1,4 +1,4 @@
-
+require('dotenv').config()
 module.exports = {
   development: {
     username: process.env.DB_USERNAME,
@@ -28,7 +28,7 @@ module.exports = {
       min: 0,
       acquire: 30000,
       idle: 10000,
-    },
+    }
   },
 }
 

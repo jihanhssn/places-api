@@ -6,7 +6,7 @@ const { setResponse, setErrorResponse } = require('../handlers/response')
 exports.create = async (req, res) => {
     try {
         const place = await placeServices.create(req.body, req.file)
-        setResponse(res, 200, "create place", place)
+        setResponse(res, 201, "create place", place)
     } catch (e) {
         if (e.statusCode && e.message) {
             return setErrorResponse(res, e.statusCode, e.message)
@@ -23,19 +23,6 @@ exports.list = async (req, res) => {
         setResponse(res, 200, "list places", places)
     } catch (e) {
         if (e.statusCode, e.message) {
-            return setErrorResponse(res, e.statusCode, e.message)
-        }
-        setErrorResponse(res)
-    }
-}
-
-//read place comments
-exports.listComments = async (req, res) => {
-    try {
-        const place_comments = await placeServices.listComments(req.params.id, res)
-        setResponse(res, 200, "list place comments", place_comments)
-    } catch (e) {
-        if (e.statusCode && e.message) {
             return setErrorResponse(res, e.statusCode, e.message)
         }
         setErrorResponse(res)
